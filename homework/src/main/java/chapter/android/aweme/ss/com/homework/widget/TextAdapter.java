@@ -43,6 +43,9 @@ public class TextAdapter extends RecyclerView.Adapter<TextAdapter.TextViewHolder
             textViewHolder.robot_notice.setVisibility(View.VISIBLE);
             Log.d("offcial "+String.valueOf(postion)+":",String.valueOf(messages.get(postion).isOfficial()));
         }
+        else{
+            textViewHolder.robot_notice.setVisibility(View.INVISIBLE);
+        }
         textViewHolder.title.setText(messages.get(postion).getTitle());
         textViewHolder.description.setText(messages.get(postion).getDescription());
         textViewHolder.time.setText(messages.get(postion).getTime());
