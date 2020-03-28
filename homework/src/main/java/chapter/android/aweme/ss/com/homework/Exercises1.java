@@ -3,7 +3,12 @@ package chapter.android.aweme.ss.com.homework;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import chapter.android.aweme.ss.com.homework.R;
 /**
  * 作业1：
  * Logcat在屏幕旋转的时候 #onStop() #onDestroy()会展示出来
@@ -13,11 +18,107 @@ import android.support.v7.app.AppCompatActivity;
  * Tips：思考用比Activity的生命周期要长的来存储？  （比如：application、static变量）
  */
 public class Exercises1 extends AppCompatActivity {
+    private static final String TAG = "dochengzz";
+
+//    设置两个静态变量，在周期进行到stop和destroy时设置值为true表示记录了已经进行过上述周期
+
+    public static  boolean STOPED=false;
+    public static  boolean DESTROIED=false;
+    private static final String ON_CREATE = "onCreate";
+    private static final String ON_START = "onStart";
+    private static final String ON_RESUME = "onResume";
+    private static final String ON_PAUSE = "onPause";
+    private static final String ON_STOP = "onStop";
+    private static final String ON_RESTART = "onRestart";
+    private static final String ON_DESTROY = "onDestroy";
+    private static final String ON_SAVE_INSTANCE_STATE = "onSaveInstanceState";
+    private static final String ON_RESTORE_INSTANCE_STATE = "onRestoreInstanceState";
+    private static final String LIFECYCLE_CALLBACKS_TEXT_KEY = "callbacks";
+
+//    用于打印activity生命周期的TextView
+    private TextView mLifecycleDisplay;
+
+    private void logAndAppend(String lifecycleEvent) {
+        Log.d(TAG, "Lifecycle Event: " + lifecycleEvent);
+        mLifecycleDisplay.append(lifecycleEvent + "\n");
+    }
+
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_exercise1);
+        mLifecycleDisplay = findViewById(R.id.tv_log);
+        if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(LIFECYCLE_CALLBACKS_TEXT_KEY)) {
+                String savedContent = (String) savedInstanceState.get(LIFECYCLE_CALLBACKS_TEXT_KEY);
+                mLifecycleDisplay.setText(savedContent);
+            }
+        }
+//        如果在create之前进入过stop和destroy状态则将状态输出
+        if(STOPED){
+            mLifecycleDisplay.append("onStop"+"\n");
+            STOPED=false;
+        }
+        if(DESTROIED){
+            mLifecycleDisplay.append("onDestroy"+"\n");
+            DESTROIED=false;
+        }
+        logAndAppend(ON_CREATE);
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        logAndAppend(ON_RESTART);
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        logAndAppend(ON_START);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        logAndAppend(ON_RESUME);
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        logAndAppend(ON_PAUSE);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        STOPED=true;
+        logAndAppend(ON_STOP);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DESTROIED=true;
+        logAndAppend(ON_DESTROY);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        logAndAppend(ON_SAVE_INSTANCE_STATE);
+        String content = mLifecycleDisplay.getText().toString();//当前已有的log 提取出来
+        outState.putString(LIFECYCLE_CALLBACKS_TEXT_KEY, content); //把内容存储起来
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        logAndAppend(ON_RESTORE_INSTANCE_STATE);
+    }
+
 
 }

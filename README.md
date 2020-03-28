@@ -1,10 +1,12 @@
-# Chapter2
+﻿# Chapter2
 Android基础UI开发
 
 * app:课堂代码
 * homework:课后作业
 * homework-debug.apk 是课后作业的示例，可以使用
 adb install -t homework-debug.apk 进行安装
+* dochengzz完成了作业
+
 
 ## UI的标注资源 请参考这里：
 

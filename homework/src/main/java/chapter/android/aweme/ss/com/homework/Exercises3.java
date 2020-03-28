@@ -1,8 +1,18 @@
 package chapter.android.aweme.ss.com.homework;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
+import java.io.InputStream;
+import java.util.List;
+
+import chapter.android.aweme.ss.com.homework.model.Message;
+import chapter.android.aweme.ss.com.homework.model.PullParser;
+import chapter.android.aweme.ss.com.homework.widget.TextAdapter;
 
 /**
  * 大作业:实现一个抖音消息页面,
@@ -32,9 +42,26 @@ import android.support.v7.app.AppCompatActivity;
  */
 public class Exercises3 extends AppCompatActivity {
 
+    List<Message> messages;
+    RecyclerView recyclerView;
+    TextAdapter textAdapter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_exercise3_recycleview);
+        try {
+            Context context=this;
+            InputStream assetInput = getAssets().open("data.xml");
+            List<Message> messages = PullParser.pull2xml(assetInput);
+            recyclerView = findViewById(R.id.rv_text);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            recyclerView.setLayoutManager(layoutManager);
+            textAdapter = new TextAdapter(messages,this);
+            recyclerView.setAdapter(textAdapter);
+        }catch (Exception exception){
+            exception.printStackTrace();
+        }
     }
 
 }

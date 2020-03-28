@@ -7,11 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import chapter.android.aweme.ss.com.chapter1.R;
+import chapter.android.aweme.ss.com.chapter2.R;
 
 public class SaveInstanceStateActivity extends AppCompatActivity {
 
-    private static final String TAG = "wangyi";
+    private static final String TAG = "dochengzz";
 
     private static final String ON_CREATE = "onCreate";
     private static final String ON_START = "onStart";

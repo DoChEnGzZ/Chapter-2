@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 
-import chapter.android.aweme.ss.com.chapter1.R;
+import chapter.android.aweme.ss.com.chapter2.R;
 
 /**
  *
@@ -17,9 +17,9 @@ import chapter.android.aweme.ss.com.chapter1.R;
  */
 public class LifeCycleActivity extends AppCompatActivity {
 
-    private static final String TAG = "wangyi";
-
-
+    private static final String TAG = "dochengzz";
+    public static  boolean STOPED=false;
+    public static  boolean DESTROIED=false;
     private static final String ON_CREATE = "onCreate";
     private static final String ON_START = "onStart";
     private static final String ON_RESUME = "onResume";
@@ -69,6 +69,14 @@ public class LifeCycleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lifecycle);
         mLifecycleDisplay = findViewById(R.id.tv_loglifecycle);
+        if(STOPED){
+            mLifecycleDisplay.append("onStop"+"\n");
+            STOPED=false;
+        }
+        if(DESTROIED){
+            mLifecycleDisplay.append("onDestroy"+"\n");
+            DESTROIED=false;
+        }
         logAndAppend(ON_CREATE);
     }
 
@@ -100,12 +108,14 @@ public class LifeCycleActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        STOPED=true;
         logAndAppend(ON_STOP);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        DESTROIED=true;
         logAndAppend(ON_DESTROY);
     }
 
